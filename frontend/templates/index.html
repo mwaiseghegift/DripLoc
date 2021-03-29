@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load leaflet_tags %}
+
+{% block e_tags %}
+    {% leaflet_js %}
+    {% leaflet_css %}
+{% endblock e_tags %}
+    
+{% block title %} Home {% endblock title %}
+    
+
+
+{% block body %}
+    <div class="container">
+        <h2>Counties</h2><br><br>
+        <div class="gis-container">
+            {% leaflet_map "counties" callback="window.counties_layer" %}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function counties_layer(map,functions){
+            var datasets = new L.GeoJSON.AJAX("{% url 'mainapp:counties' %}",{
+
+            });
+            datasets.addTo(map);
+        }
+    </script>
+{% endblock body %}
+    

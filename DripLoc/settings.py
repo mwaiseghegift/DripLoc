@@ -58,7 +58,9 @@ ROOT_URLCONF = 'DripLoc.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'frontend/templates')
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,11 +128,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'frontend/static')
+]
 
 
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (0.0236, 37.9062),
-    'DEFAULT_ZOOM': 2,
+    'DEFAULT_ZOOM': 5,
     'MIN_ZOOM': 3,
     'MAX_ZOOM': 18,
     'DEFAULT_PRECISION': 6,
