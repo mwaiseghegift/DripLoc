@@ -3,16 +3,42 @@
 
 {% block body %}
 
+
+{% if queryset %}
 <p>
-    Your location is <span id="latitude">0.00</span>°
-    latitude by <span id="longitude">0.00</span>° longitude.
-  </p>
+  Your location is <span id="latitude">{{ latitude }}</span>°
+  latitude by <span id="longitude">{{ longitude }}</span>° longitude.
+</p>
+
+{%else%}
+
+<p>
+  Your location is <span id="latitude">0.00</span>°
+  latitude by <span id="longitude">0.00</span>° longitude.
+</p>
+
+{% endif %}
+  
 
 
 
   <button id="get-location">{% csrf_token %}
     Get My Location
   </button>
+
+<div class="container">
+  <div id="querysetContainer">
+    
+    {% for object in list_instances  %}
+      
+    <div class="text-centre">
+      {{ object }}
+    </div>
+
+    {% endfor %}
+      
+  </div>
+</div>
 
 
 
@@ -26,6 +52,7 @@
         let button = document.getElementById("get-location");
         let latText = document.getElementById("latitude");
         let longText = document.getElementById("longitude");
+        let queryset = document.getElementById("querysetContainer")
   
       $(document).on('click','#get-location', function(e){
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -37,7 +64,7 @@
 
           latText.innerText = lat.toFixed(2);
           longText.innerText = long.toFixed(2);
-          
+         
           $.ajax({
             type: 'POST',
             url: "{% url 'mainapp:getshops' %}",
@@ -46,8 +73,8 @@
               longitude:JSON.stringify(longitude),
               csrfmiddlewaretoken: '{{csrf_token}}',
             },
-            success: function(json){
-              console.log(json)
+            success: function(responce){
+              $('#querysetContainer')
             },
           });
         });

@@ -25,19 +25,20 @@ def GetNearestDrip(request, *args, **kwargs):
         latitude1 = request.POST.get('latitude')
         longitude1 = request.POST.get('longitude')
 
-        datao = 0.25455511
-        print(type(datao))
-
         floatLatitude = float(latitude1)
         floatLongitude = float(longitude1)
         
         user_location = Point((floatLongitude, floatLatitude), srid=4326)
-        queryset = Incidence.objects.annotate(distance=Distance('location', user_location)).order_by('distance')[0:6]
+        instances = serialize('geojson', Incidence.objects.annotate(distance=Distance('location', user_location)).order_by('distance')[:6])
+        list_instances = Incidence.objects.annotate(distance=Distance('location', user_location)).order_by('distance')[:6]
 
         context = {
             'latitude':floatLatitude,
             'longitude':floatLongitude,
-            'queryset':queryset,
+            'instances':instances,
+            'list_inastances':list_instances,
         }
-        return render(request, 'nearest.html', context)
+        print(list_instances)
+        return HttpResponse(instances, content_type = 'json')
+    
     return render(request, 'nearest.html')
