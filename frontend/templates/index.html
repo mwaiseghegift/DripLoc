@@ -15,16 +15,25 @@
     <div class="container">
         <h2>Counties</h2><br><br>
         <div class="gis-container">
-            {% leaflet_map "counties" callback="window.counties_layer" %}
+            {% leaflet_map "counties" callback="window.the_layer" %}
         </div>
     </div>
 
     <script type="text/javascript">
-        function counties_layer(map,functions){
-            var datasets = new L.GeoJSON.AJAX("{% url 'mainapp:counties' %}",{
-
+        function the_layer(map,functions){
+            var county_datasets = new L.GeoJSON.AJAX("{% url 'mainapp:counties' %}",{
+                onEachFeature: function(feature, layer){
+                    layer.bindPopup(feature.properties.county.toString())
+                }
             });
-            datasets.addTo(map);
+            var drip_points = new L.GeoJSON.AJAX("{% url 'mainapp:incidences' %}", {
+                onEachFeature: function(feature, layer){
+                    layer.bindPopup(feature.properties.name.toString())
+                }
+            });
+            county_datasets.addTo(map);
+            drip_points.addTo(map);
+
         }
     </script>
 {% endblock body %}

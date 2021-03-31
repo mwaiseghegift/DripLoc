@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+<p>
+    Your location is <span id="latitude">0.00</span>°
+    latitude by <span id="longitude">0.00</span>° longitude.
+  </p>
+
+
+
+  <button id="get-location">{% csrf_token %}
+    Get My Location
+  </button>
+
+
+
+{% endblock body %}
+
+{% block script %}
+  
+<script>
+
+  $(document).ready(function(){
+        let button = document.getElementById("get-location");
+        let latText = document.getElementById("latitude");
+        let longText = document.getElementById("longitude");
+  
+      $(document).on('click','#get-location', function(e){
+        navigator.geolocation.getCurrentPosition(function(position) {
+          let lat = position.coords.latitude;
+          let long = position.coords.longitude;
+  
+          let latitude = position.coords.latitude;
+          let longitude = position.coords.longitude;
+
+          latText.innerText = lat.toFixed(2);
+          longText.innerText = long.toFixed(2);
+          
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'mainapp:getshops' %}",
+            data : {
+              latitude:JSON.stringify(latitude),
+              longitude:JSON.stringify(longitude),
+              csrfmiddlewaretoken: '{{csrf_token}}',
+            },
+            success: function(json){
+              console.log(json)
+            },
+          });
+        });
+      });
+  })
+  
+      
+    </script>
+{% endblock script %}
+  
+  
