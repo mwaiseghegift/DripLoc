@@ -7,5 +7,5 @@ urlpatterns = [
     path('', IndexView, name='index'),
     path('counties/', CountyDataView, name='counties'),
     path('incidence/', IncidenceView, name='incidences'),
-    path('getshops/', GetNearestDrip, name='getshops')
+    path('getshops/', GetNearestDrip, name='getshops'),
 ]

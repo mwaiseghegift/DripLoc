@@ -142,3 +142,6 @@ LEAFLET_CONFIG = {
     'SCALE':'both',
     'ATTRIBUTION_PREFIX':'retech made it for human beings',
 }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

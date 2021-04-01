@@ -22,7 +22,7 @@
 
 
 
-  <button id="get-location">{% csrf_token %}
+  <button action="{% url 'mainapp:getshops' %}" id="get-location">{% csrf_token %}
     Get My Location
   </button>
 
@@ -73,8 +73,8 @@
               longitude:JSON.stringify(longitude),
               csrfmiddlewaretoken: '{{csrf_token}}',
             },
-            success: function(responce){
-              $('#querysetContainer')
+            success: function(json){
+              console.log(json)
             },
           });
         });

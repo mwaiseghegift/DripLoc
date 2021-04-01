@@ -39,6 +39,6 @@ def GetNearestDrip(request, *args, **kwargs):
             'list_inastances':list_instances,
         }
         print(list_instances)
-        return HttpResponse(instances, content_type = 'json')
+        return render(request, 'nearest.html', context)
     
     return render(request, 'nearest.html')
